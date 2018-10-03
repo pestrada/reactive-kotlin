@@ -1,16 +1,17 @@
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.toFlowable
 
 class FakeDb : Db {
-    val userMap = mutableMapOf(
+    private val userMap = mutableMapOf(
             1 to User(1, "Peter"),
             2 to User(2, "Laura"),
             3 to User(3, "John"),
             4 to User(4, "Carl"))
-    val userPointsMap = mapOf(1 to 40, 2 to 23, 3 to 0, 4 to 5)
+    private val userPointsMap = mapOf(1 to 40, 2 to 23, 3 to 0, 4 to 5)
 
-    override fun getAllUsers(): Flowable<User> = Flowable.fromIterable(userMap.values)
+    override fun getAllUsers(): Flowable<User> = userMap.values.toFlowable()
 
     override fun getUserById(id: Int): Single<User> {
         return getAllUsers()
