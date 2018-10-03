@@ -1,14 +1,8 @@
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.zipWith
-
 fun main(args: Array<String>) {
     val db = FakeDb()
+    db.getUserById(3)
+            .subscribe { it -> println(it) }
 
-    db.getUsers()
-            .flatMap { user ->
-                db.getPointsForUser(user.key).zipWith(Observable.just(user.value)) { points, username ->
-                    "$username has $points"
-                }
-            }
-            .subscribe { println(it) }
+    db.addUser(User(5, "Jessica"))
+            .subscribe { println("User added successfully") }
 }
